@@ -6,21 +6,26 @@ let handMin = document.querySelector('.hand-min');
 let handSec = document.querySelector('.hand-sec');
 let idxCircRadi = idxCirc.offsetWidth/2;
 let dotCol = '#ffffff';
-let round = 0;
+let resetHandSec = () => {
+    handSec.style.transitionDuration = '0s';
+    handSec.style.transform = `rotate(0rad)`;
+};
 let getTime =  () => {
     let d = new Date();
     let h = d.getHours() % 12;
     let m = d.getMinutes();
     let s = d.getSeconds();
-    console.log(s);
-    let AngS = ((s + 1)/30 + 2 * round) * Math.PI;
-    let AngM = (m/30 + s/1800 + 2 * round) * Math.PI;
-    let AngH = (h/6 + m/360 + s/21600 + 2 * round) * Math.PI;
+    let AngS = ((s + 1)/30) * Math.PI;
+    let AngM = (m/30 + s/1800) * Math.PI;
+    let AngH = (h/6 + m/360 + s/21600 ) * Math.PI;
+    if(s == 0){
+        handSec.style.transition = 'transform 1s linear';
+    };
     handSec.style.transform = `rotate(${AngS}rad)`;
     handMin.style.transform = `rotate(${AngM}rad)`;
     handHr.style.transform = `rotate(${AngH}rad)`;
     if(s == 59){
-        round ++;
+        setTimeout('resetHandSec()', 980);
     };
 };
 setInterval('getTime()', 1000);
